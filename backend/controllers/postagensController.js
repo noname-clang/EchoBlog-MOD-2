@@ -1,4 +1,4 @@
-import Posts from "../models/postagensModel.js";
+import { Posts , Users}  from "../models/usersModel.js";
 import { z } from "zod";
 import fs from 'fs'
 import formatZodError from "../helpers/zodError.js";
@@ -41,10 +41,17 @@ export const create = async (request, response) => {
       return;
     }
     if (!autor) {
-      response.status(400).json({ err: "A descricao é obirgatoria" });
+      response.status(400).json({ err: "o autor é obirgatoria" });
       return;
     }
 
+    // jwt.verify(token, process.env.TOKEN, function(err, decoded) {
+    //   if (err) return res.status(500).json({ auth: false, message: 'Failed to authenticate token.' });
+    //  console.log(decoded);
+    //    if(decoded.papel != "administrador") { 
+        Users.hasMany(Posts)
+    //   }
+    // });
 
     // if(!imagem)
     //   imagem = "caminhodefault"
@@ -116,9 +123,18 @@ export const getbyid = async (request, response) => {
   };
 export const deleteinformacoes = async (request, response) => {
 
-   const id = request.params.id 
+   const id = request.params.id
+   console.log(request.headers.authorization.split(" ")[1])
    console.log(id)
     try {
+
+      jwt.verify(token, process.env.TOKEN, function(err, decoded) {
+        if (err) return res.status(500).json({ auth: false, message: 'Failed to authenticate token.' });
+       console.log(decoded);
+      if(decoded.papel != "administrador") {
+        
+      }
+      });
       const postagens = await Posts.destroy({
         where: {id}
       });

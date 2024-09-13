@@ -5,15 +5,10 @@ import bodyParser from "body-parser"
 const router = Router();
 
 router.post("/", posts.create);
-
-router.get("/", posts.showall);
-router.get("/:id", posts.getbyid);
-
-
 router.get("/", posts.showall);
 router.get("/:id", posts.getbyid);
 router.delete("/:id", posts.deleteinformacoes);
- router.put("/:id", posts.atualizarinformacoes);
- router.post("/:id/imagem", bodyParser.raw({type: ["image/jpeg", "image/png"], limit: "5mb"})  , posts.imagesend);
+router.put("/:id", posts.atualizarinformacoes);
+router.post("/:id/imagem", bodyParser.raw({type: ["image/jpeg", "image/png"], limit: "5mb"})  , posts.imagesend);
 
 export default router;
